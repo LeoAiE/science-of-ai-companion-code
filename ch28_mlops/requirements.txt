@@ -1,0 +1,11 @@
+# Pinned dependencies for the Chapter 28 serving image (see Dockerfile).
+# These are the five packages the image needs directly: numpy, scikit-learn,
+# fastapi and pydantic for the serving code (04_serving.py) and uvicorn to run
+# it, at the versions the chapter's notebooks ran with on Python 3.13.18.
+# pip resolves their own dependencies when the image is built, so the image
+# matches the tested environment in these five packages, not in every package.
+numpy==2.5.4
+scikit-learn==1.9.1
+fastapi==0.162.0
+uvicorn==0.54.0
+pydantic==2.14.2

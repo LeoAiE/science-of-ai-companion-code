@@ -1,0 +1,28 @@
+AIFB entity classification data for Chapter 20 (Section 20.3.3, the R-GCN run).
+
+PyTorch Geometric's Entities loader (torch_geometric.datasets.Entities, name "AIFB") expects four raw files
+under AIFB/raw: aifb_stripped.nt.gz, completeDataset.tsv, trainingSet.tsv and testSet.tsv. The loader's own
+download URL, https://data.dgl.ai/dataset/aifb.tgz, stopped serving the archive before 7 November 2026 (the
+host refuses the TLS handshake and answers 404 on plain HTTP; the Wayback Machine holds no copy), so the files
+are shipped here and the listing points the loader at this folder, as the chapter already does for MUTAG.
+
+Where each file was downloaded from on 7 November 2026:
+  aifb_stripped.nt.gz   https://github.com/pbloem/outing-2019/blob/master/data/aifb_stripped.nt.gz (raw file,
+                        568,040 bytes, 29,044 N-Triples lines, MD5 6dc5f488341302ca40bcd8eaba31e398); the
+                        repository of Peter Bloem, a coauthor of the R-GCN paper.
+  completeDataset.tsv   https://github.com/tkipf/relational-gcn/tree/master/rgcn/data/aifb (MIT license), the
+  trainingSet.tsv       R-GCN authors' repository, MD5 aa86a5da19e3c47c8d5bf30ed499bf49,
+  testSet.tsv           152cb6bf746dccdc95359ebd478ff481 and e2ff6ef9eea07fc6dc5f41ee54232575.
+  README.txt            the same folder of the R-GCN repository: the dataset description, which names
+                        Bloehdorn et al. (2007) as the first use of the affiliation prediction task.
+
+The stripped N-Triples file is the AIFB portal graph (the AIFB research institute's staff, research groups
+and publications, SWRC ontology) with the affiliation and employs relations removed, which is what the R-GCN
+repository's strip_targets.py produces from aifb_fixed_complete.n3. Loaded with PyTorch Geometric 2.8.1 and
+rdflib 7.6.0 it gives 8,285 entities, 58,086 typed edge entries (each fact in both directions), 90 edge types,
+4 classes, 140 training and 36 test entities, the same counts the chapter printed from the original archive.
+
+AIFB/processed holds the tensors PyTorch Geometric wrote when it processed these raw files once on 7 November
+2026. The loader numbers the entities and the classes in Python set order, which changes with the interpreter's
+hash seed, so the processed copy is shipped to keep the numbering, and with it the printed accuracies, the same
+on every run; delete the processed folder to reprocess the raw files (rdflib must be installed for that).

@@ -1,0 +1,127 @@
+# Companion code for The AI Practitioner's Handbook.
+# Install with:  pip install -r requirements.txt
+# (For a CPU-only PyTorch, install torch from https://download.pytorch.org/whl/cpu)
+# Tested environment (2026-11-18, conda env aibook; the versions the book's printed outputs come from
+# after the Mac end-of-pass rerun of HANDOFF section 7 item 2):
+#   Python 3.13.14; numpy 2.5.4, pandas 2.3.3, scipy 1.18.1, matplotlib 3.11.2,
+#   seaborn 0.13.2, scikit-learn 1.9.1, torch 2.15.0, torchvision 0.29.2,
+#   transformers 5.22.1, datasets 5.1.0, tensorflow 2.21.0, jax 0.12.0.1,
+#   boto3 1.43.123, optuna 5.0.0, jupytext 1.19.6, xgboost 3.4.1, lightgbm 4.7.0,
+#   fairlearn 0.15.0, opacus 1.6.0, adversarial-robustness-toolbox 1.20.1.
+
+numpy
+pandas
+scipy
+matplotlib
+seaborn
+scikit-learn
+joblib                # imported by the Chapter 1 and Chapter 30 companion scripts
+statsmodels           # 17 SARIMAX, exponential smoothing, ADF and KPSS, STL, Theta (also Chapters 2 to 5 and 9); tested with statsmodels 0.15.0
+patsy                 # 5.6.1 natural cubic spline basis cr(); installed with statsmodels; tested with patsy 1.0.3
+networkx
+librosa               # 21 STFT, mel spectrograms, MFCCs, pyin, Griffin-Lim and the bundled example clips (libri1 to libri3, trumpet); tested with librosa 1.0.0
+music21               # 21.5 the Bach chorale scores bundled in its corpus; tested with music21 10.5.2
+soundfile             # 21 decodes the ESC-50 and LibriSpeech bytes that datasets returns with Audio(decode=False), and 24.2.1 the LibriSpeech dummy recordings of the WaveNet listing; tested with soundfile 0.14.0
+imbalanced-learn
+optuna                # 4.8.4 TPE study and the Chapter 4 exercises; tested with optuna 5.0.0
+tensorboard
+xgboost               # 17.4 lag-feature forecaster and the 17.9 lab, run with n_jobs=2 (also Chapters 7 and 19); tested with xgboost 3.4.1
+lightgbm
+catboost
+umap-learn            # 8.3.2, 8.3.3, and 8.7 UMAP embeddings; tested with umap-learn 0.5.12
+hdbscan               # 26.2 BERTopic's default clusterer, compared in the topic modeling listing (its clusters come from scikit-learn's HDBSCAN); required by bertopic; tested with hdbscan 0.8.44
+bertopic              # 26.2 the same topic model through the BERTopic library (Grootendorst, 2022); tested with bertopic 0.17.4
+numba                 # 1.3.1 compiled loop demo (@njit); also required by umap-learn; tested with numba 0.68.0
+lifelines             # 9.9 survival analysis; tested with lifelines 0.30.3
+hmmlearn              # 9.7.5 hidden Markov models (Baum-Welch); tested with hmmlearn 0.3.3
+pgmpy                 # 9.6.3 Bayesian networks; tested with pgmpy 1.1.2
+pymc                  # 9.12 probabilistic programming; tested with pymc 6.4.0
+pymc-bart             # imported as pymc_bart in the Chapter 7 walkthrough; that file's install comment says pymc-bart
+arviz                 # 9.12 diagnostics and model comparison; tested with arviz 1.3.0
+torch
+torchvision
+ultralytics
+tensorflow
+jax
+transformers
+timm                  # 13 DETR loads its ResNet-50 backbone through timm (transformers TimmBackbone); tested with timm 1.0.28
+tokenizers            # 15.3.2 training a byte-level BPE and a unigram tokenizer; installed with transformers; tested with tokenizers 0.23.3
+sentencepiece         # 13 TrOCR tokenizer (microsoft/trocr-small-printed); tested with sentencepiece 0.2.1
+sacrebleu             # 15 BLEU with its settings signature (Post, 2018); tested with sacrebleu 2.6.0
+rouge-score           # 15 ROUGE-1 recall, precision, and F1; tested with rouge-score 0.1.2
+bert-score            # 15 BERTScore; tested with bert-score 0.3.13
+sklearn-crfsuite      # 15 linear-chain CRF for named entities; tested with sklearn-crfsuite 0.5.0 (python-crfsuite 0.9.12)
+datasets              # Hugging Face Hub datasets (Chapters 14 to 16, 18, 21 and 23 to 27); Chapters 21 and 24 read audio columns with Audio(decode=False) because decoding needs torchcodec and FFmpeg; tested with datasets 5.1.0
+nltk                  # 21.2 the CMU Pronouncing Dictionary and the Gutenberg selection, fetched with nltk.download; tested with nltk 3.10.4
+peft                  # 25.7 LoRA lab and the lab variants (07_lab_lora.py, 08_lab_lora_variants.py); tested with peft 0.21.2
+accelerate            # 16.10.2 the mini-GPT loop through Accelerate; the 16.10.1 Trainer runs on it; tested with accelerate 1.15.0
+gymnasium             # 18 CliffWalking-v1, Blackjack-v1, CartPole-v1, Pendulum-v1, and FrozenLake-v1 (also Chapter 22); tested with gymnasium 1.4.0
+stable-baselines3     # 18.7.6 PPO, 18.7.7 SAC, DDPG, and TD3, and the 18.12 lab's PPO; tested with stable-baselines3 2.9.2
+sb3-contrib           # 18.7.6 TRPO (sb3_contrib.TRPO) from the Stable-Baselines3 contrib package; tested with sb3-contrib 2.9.2
+cma                   # 22.4.1 pycma's CMAEvolutionStrategy on the ill-conditioned valley and Appendix H exercise 4; tested with cma 4.5.0
+torch-geometric       # 20 GCNConv, SAGEConv, GATConv, GINConv, RGCNConv, LabelPropagation, Planetoid (Cora), TUDataset (MUTAG) and Entities (AIFB); tested with torch-geometric 2.8.1
+rdflib                # 20.3.3 the Entities loader parses the AIFB N-Triples file with it when it processes the shipped raw files; tested with rdflib 7.6.0
+implicit              # 19.5.3 weighted ALS and BPR from the implicit library (Example 19-14); tested with implicit 0.7.3
+threadpoolctl         # 19.5.3 caps the BLAS thread pool while implicit's models are built and fitted (Example 19-14); installed with scikit-learn; tested with threadpoolctl 3.7.0
+scikit-surprise       # 19.3.3 the same neighborhood and factorization models from a standard library (KNNWithMeans, SVD, SVDpp); tested with scikit-surprise 1.1.5
+trl                   # 18.10.6 DPO and 18.10.7 GRPO on distilgpt2; tested with trl 1.17.1
+httpx2                # 28 the FastAPI and Starlette TestClient; installed with huggingface-hub; tested with httpx2 2.16.0
+fastapi
+uvicorn
+mlflow-skinny         # 28 MLflow tracking and the model registry on a local SQLite store (the Chapter 28 units); MLflow sends anonymous usage data unless MLFLOW_DISABLE_TELEMETRY=true, which those listings set; the default skops model format is not installed, so they log models with serialization_format="pickle"; tested with mlflow-skinny 3.18.0
+prometheus-client     # 28.12 the lab's metrics in the Prometheus text format, served from a private registry beside the lab's JSON /metrics; tested with prometheus-client 0.26.0
+httpx                 # 28.4 the live server listing sends its HTTP requests with it; also installed with jupyterlab; tested with httpx 0.28.1
+onnx
+onnxruntime
+jsonschema            # 25.3.1 validates the local model's JSON against a schema (09_schema_validation.py); also imported in Chapter 27; tested with jsonschema 4.26.0
+jupyter
+jupytext              # opens the percent-format scripts as notebooks in Jupyter and builds the shipped .ipynb files from them; tested with jupytext 1.19.6
+python-dotenv         # 1.6.6 .env loading demo (load_dotenv); tested with python-dotenv 1.0.1
+boto3
+moto[s3]              # 30.3.3 and 30.4.2 the EC2 launch and the S3 upload against moto's in-memory AWS, with no account and no network (the Chapter 30 moto units); tested with moto 5.2.5
+pyyaml                # 30.6.3 the KServe manifest check (yaml.safe_load); tested with PyYAML 6.0.3
+sentence-transformers # 15.4.1 and 15.5.7 sentence embeddings; 26.2 the sentence-transformers check and the topic model listing; 26.3.1 the product quantization run on SQuAD (10_pq_squad.py); tested with sentence-transformers 6.2.0
+faiss-cpu             # 26.3.1 IndexFlatIP, IndexHNSWFlat, IndexIVFFlat, IndexPQ, and IndexIVFPQ, and 10_pq_squad.py; tested with faiss-cpu 1.15.1
+rank-bm25             # 26.6.1 BM25Okapi, and the measured hybrid retrieval of 26.6.3; tested with rank-bm25 0.2.2
+scikit-image          # 23.5.2 skimage.data.astronaut(), the photograph the SmolVLM listing reads (Chapters 12 and 13 load its images too); tested with scikit-image 0.26.0
+pillow
+beautifulsoup4
+lxml
+pyarrow
+dask[dataframe]
+polars                # 3.9.3 streaming mean over the big-*.csv files; tested with polars 1.43.2
+gensim
+spacy                 # 15.1 lemmatization/POS/dependency demo; also run: python -m spacy download en_core_web_sm
+lime
+shap                  # 7.9 lab interpretation and Chapter 29 explainability (SHAP values)
+fairlearn             # 29.1.2 MetricFrame, ThresholdOptimizer and ExponentiatedGradient on the Adult split of Example 29-1 (the Chapter 29 fairness unit); tested with fairlearn 0.15.0
+opacus                # 29.3 DP-SGD with the PrivacyEngine and the RDP accountant beside Example 29-8 (the Chapter 29 privacy unit); tested with opacus 1.6.0
+adversarial-robustness-toolbox  # 29.4 FGSM and PGD from the Adversarial Robustness Toolbox on the digits network of Example 29-12 (the Chapter 29 attack unit); tested with adversarial-robustness-toolbox 1.20.1
+tabpfn                # 7.8.4 TabPFN v2 race (code/ch07_ensembles/08_tabpfn_race.py); tested with tabpfn 9.2.0
+mlxtend
+prophet               # 17.6 Prophet forecast (Stan through cmdstanpy); tested with prophet 1.5.0 and cmdstanpy 1.3.0
+arch                  # 17.2 GARCH volatility demo (bundles the real S&P 500 daily series); tested with arch 8.0.0
+chronos-forecasting   # 17.5 zero-shot foundation-model forecast (amazon/chronos-bolt-tiny); tested with chronos-forecasting 2.3.2
+sympy
+pydantic>=2.11        # the mcp SDK below needs 2.11+
+pytest
+mcp                   # 27.7 real Model Context Protocol server + client (tested with mcp 2.3.0)
+
+# Optional: hosted-LLM API clients used by the Chapter 25 and 27 examples that
+# call a paid endpoint (each block needs your own API key to run):
+#   openai               (OpenAI API client)
+#   anthropic            (Anthropic API client)
+
+# Cloud SDKs used by the illustrative (not-run) deployment scripts of Chapter 30.
+# Install only the one you deploy with:
+#   sagemaker==2.*       (the SageMaker AI Python SDK 2.x interface of the 30.4.6 sketch; V3 dropped SKLearnModel)
+#   google-cloud-aiplatform  (GCP Vertex AI SDK)
+#   azure-ai-ml, azure-identity  (Azure ML SDK v2)
+
+# Chapter 3 (3.9.3) Spark example: it runs on one machine but needs Java 17 or later with JAVA_HOME set
+# (tested 2026-11-01 with pyspark 4.3.0 on OpenJDK 21.0.10):
+pyspark
+
+# Chapter 3 (3.8.5) data versioning: DVC is a command-line tool, not installed by this file; install it as the
+# DVC Get Started guide advises (uv tool install dvc, or pipx install dvc).
+# Tested 2026-11-01 with DVC 3.67.1 and Git 2.47.0 (code/ch03_working_with_data/dvc_versioning_demo.sh).

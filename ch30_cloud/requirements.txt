@@ -1,0 +1,13 @@
+# Pinned dependencies for the Chapter 30 lab container (see Dockerfile).
+# These are the six packages the image needs directly: fastapi, pydantic and
+# joblib, which app.py imports, scikit-learn and numpy, which load and run the
+# pickled model, and uvicorn to run the app, at the versions the chapter's
+# notebooks ran with on Python 3.13.18. Training happens outside the image.
+# pip resolves their own dependencies when the image is built, so the image
+# matches the tested environment in these six packages, not in every package.
+numpy==2.5.4
+scikit-learn==1.9.1
+joblib==1.6.0
+fastapi==0.162.0
+uvicorn==0.54.0
+pydantic==2.14.2

@@ -1,0 +1,50 @@
+# .github/workflows/deploy_ci.yml
+# ILLUSTRATIVE: runs in GitHub Actions against your own Google Cloud project,
+# signing in through Workload Identity Federation, so no key is stored in the
+# repository's secrets. On every push to main it builds the container, pushes
+# it to the registry, and deploys a new Cloud Run revision. Swap the deploy step
+# for `aws ecs update-express-gateway-service` / `az containerapp update` to
+# target a different cloud.
+name: build-and-deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    env:
+      REGION: us-central1
+      SERVICE: breast-cancer-api
+      IMAGE: us-central1-docker.pkg.dev/my-ml-project-2026/ml-images/breast-cancer-api
+    steps:
+      - uses: actions/checkout@v7
+
+      # Authenticate to Google Cloud through Workload Identity Federation: the
+      # job trades a token from GitHub for short-lived credentials, so the
+      # repository stores no key.
+      - uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+          service_account: 'my-service-account@my-ml-project-2026.iam.gserviceaccount.com'
+      - uses: google-github-actions/setup-gcloud@v3
+
+      # Build the image, tagging it with the commit SHA so every deploy is
+      # traceable to a commit and older revisions stay pullable.
+      - name: Build and push
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+          docker build -t "$IMAGE:${{ github.sha }}" .   # tag with the commit SHA
+          docker push "$IMAGE:${{ github.sha }}"
+
+      # Deploy a new revision. --no-traffic parks it at 0% so we can canary it
+      # before shifting real users onto it (see 30.9).
+      - name: Deploy new revision (parked at 0% traffic)
+        run: |
+          gcloud run deploy "$SERVICE" \
+            --image "$IMAGE:${{ github.sha }}" \
+            --region "$REGION" \
+            --no-traffic --tag "sha-${{ github.sha }}"
