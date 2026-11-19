@@ -260,8 +260,7 @@ print(f"batched faster than loop: {bat < loop}")
 # expected output: valid HTTP 200 {'probability': 0.999, 'label': 0} (true class 0); invalid HTTP 422
 # expected output: batched faster than loop: True
 # loop 596.7 ms, batch 0.8 ms, ratio 713x
-# (one run on the reference machine, the author's Windows PC with an Intel Core i7-7800X, 6 cores and 12
-# threads, under Python 3.13.18; the times vary by machine and from run to run.)
+# (one run on the reference machine, an Apple M1 Max, under Python 3.13.14; the times vary by machine and from run to run.)
 
 # %% [markdown]
 # 9. Scaling levers and build-versus-buy economics, from Sections 28.10 and 28.7
