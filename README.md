@@ -1,6 +1,6 @@
 # Companion Code
 
-Runnable, notebook-style code for *The AI Practitioner's Handbook: From Math to Agents*, organized one folder per chapter. Every code example in the book lives here as code you can actually run, alongside extra examples for practice.
+Runnable, notebook-style code for *The Science of Artificial Intelligence: The Practitioner's Complete Handbook*, organized one folder per chapter. Every code example in the book lives here as code you can actually run, alongside extra examples for practice.
 
 ## Structure
 
@@ -35,5 +35,7 @@ Plots are saved as `.png` files next to the script that makes them, so the scrip
 ## Tested with
 
 Python 3.13.14 (conda env aibook), with numpy 2.5.4, pandas 2.3.3, scipy 1.18.1, matplotlib 3.11.2, scikit-learn 1.9.1, torch 2.15.0, torchvision 0.29.2, transformers 5.22.1, and datasets 5.1.0 (verified 2026-11-18).
+
+The companion notebooks were executed with `OMP_NUM_THREADS=2`. Scripts that mix torch with XGBoost (or other OpenMP clients) set that cap in the cell before those libraries load; Section 7.9.3 and Example 19-12 explain why. From a terminal you can run the same scripts without the cap unless a listing asks for it.
 
 The Hugging Face examples download small models and datasets from the Hub the first time they run, so they need an internet connection on first use and then cache locally.

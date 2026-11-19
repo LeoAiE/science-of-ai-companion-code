@@ -33,23 +33,23 @@ def compare(dim, seed):
     best = min((rng.uniform(-5, 5, dim) for _ in range(5000)), key=rastrigin)   # best of 5,000 guesses
     return rastrigin(x), rastrigin(best)
 gd0, rs0 = compare(2, 0)
-print(f"1. seed 0, 2-D: gradient descent {gd0:.2f}   random search {rs0:.2f}   (Example 22-1)")
+print(f"1. seed 0, 2D: gradient descent {gd0:.2f}   random search {rs0:.2f}   (Example 22-1)")
 for dim in (2, 5, 10, 20):
     runs = [compare(dim, s) for s in range(10)]
     gd, rs = np.mean([r[0] for r in runs]), np.mean([r[1] for r in runs])
     wins = sum(r[1] < r[0] for r in runs)
-    print(f"1. {dim:2d}-D, 10 seeds: gradient descent mean {gd:6.2f}   random search mean {rs:6.2f}   "
+    print(f"1. {dim:2d}D, 10 seeds: gradient descent mean {gd:6.2f}   random search mean {rs:6.2f}   "
           f"random wins {wins}/10")
-# expected output: 1. seed 0, 2-D: gradient descent 4.97   random search 0.23   (Example 22-1)
-# expected output: 1.  2-D, 10 seeds: gradient descent mean  15.72   random search mean   1.02   random wins 10/10
-# expected output: 1.  5-D, 10 seeds: gradient descent mean  45.67   random search mean  18.98   random wins 10/10
-# expected output: 1. 10-D, 10 seeds: gradient descent mean  87.85   random search mean  72.54   random wins 8/10
-# expected output: 1. 20-D, 10 seeds: gradient descent mean 167.85   random search mean 206.43   random wins 1/10
+# expected output: 1. seed 0, 2D: gradient descent 4.97   random search 0.23   (Example 22-1)
+# expected output: 1.  2D, 10 seeds: gradient descent mean  15.72   random search mean   1.02   random wins 10/10
+# expected output: 1.  5D, 10 seeds: gradient descent mean  45.67   random search mean  18.98   random wins 10/10
+# expected output: 1. 10D, 10 seeds: gradient descent mean  87.85   random search mean  72.54   random wins 8/10
+# expected output: 1. 20D, 10 seeds: gradient descent mean 167.85   random search mean 206.43   random wins 1/10
 # In 2 and 5 dimensions random search wins on every seed, but in 20 dimensions it wins on only 1 of 10.
 # Gradient descent rolls each coordinate into its nearest dip, so its mean grows in step with d, about 8 to 9
 # per coordinate in every dimension here. A low value from random sampling needs every coordinate near 0 at
 # once, and the share of the box where that holds shrinks exponentially with d, so a fixed 5,000 samples fall
-# behind. The chapter's 2-D win, 0.23 against 4.97, is a low-dimensional result, not a general one.
+# behind. The chapter's 2D win, 0.23 against 4.97, is a low-dimensional result, not a general one.
 
 # %% [markdown]
 # 2. Local search at equal budgets: Example 22-2's thirty starts, both methods at 1,000 and at 4,000 evaluations
@@ -119,16 +119,16 @@ def run_ga(dim, seed, crossover=True, POP=120, GENS=80, ELITE=4):
             new.append(np.clip(child, -5.12, 5.12))
         pop = np.array(new)
     return rast_batch(pop).min()
-print(f"3. seed 0, 5-D, with crossover: best f = {run_ga(5, 0):.3f}   (Example 22-6)")
+print(f"3. seed 0, 5D, with crossover: best f = {run_ga(5, 0):.3f}   (Example 22-6)")
 for dim in (5, 10):
     with_cx = [run_ga(dim, s) for s in range(5)]
     without = [run_ga(dim, s, crossover=False) for s in range(5)]
     better = sum(a < b for a, b in zip(with_cx, without))        # same seed, with against without
-    print(f"3. {dim:2d}-D, 5 seeds: with crossover mean {np.mean(with_cx):.3f}   "
+    print(f"3. {dim:2d}D, 5 seeds: with crossover mean {np.mean(with_cx):.3f}   "
           f"without crossover mean {np.mean(without):.3f}   crossover better on {better}/5 seeds")
-# expected output: 3. seed 0, 5-D, with crossover: best f = 0.016   (Example 22-6)
-# expected output: 3.  5-D, 5 seeds: with crossover mean 0.223   without crossover mean 3.893   crossover better on 5/5 seeds
-# expected output: 3. 10-D, 5 seeds: with crossover mean 5.193   without crossover mean 24.922   crossover better on 5/5 seeds
+# expected output: 3. seed 0, 5D, with crossover: best f = 0.016   (Example 22-6)
+# expected output: 3.  5D, 5 seeds: with crossover mean 0.223   without crossover mean 3.893   crossover better on 5/5 seeds
+# expected output: 3. 10D, 5 seeds: with crossover mean 5.193   without crossover mean 24.922   crossover better on 5/5 seeds
 # Removing crossover makes this GA about 17 times worse in 5 dimensions (3.893 against 0.223) and about 5
 # times worse in 10 (24.922 against 5.193), and crossover wins on every seed in both. Blend crossover can give
 # a child good coordinates from two different parents, and Rastrigin is a sum of one-coordinate terms, so good
@@ -364,7 +364,7 @@ print(f"8. nearest-neighbor = {nn_tour():.2f}   ACO best = {best_len:.2f}   ACO 
 
 # %%
 # 9. Differential evolution's two knobs: Example 22-16's DE for nine settings of F and CR, against random search
-BUDGET = 15000                                      # Example 22-16's budget and population, on 5-D Rastrigin
+BUDGET = 15000                                      # Example 22-16's budget and population, on 5D Rastrigin
 def de(f, rng, pop=40, F=0.5, CR=0.9):              # Example 22-16's loop, with the generator passed in
     P = rng.uniform(-5, 5, (pop, DIM)); fit = np.array([f(p) for p in P]); evals = pop
     while evals < BUDGET:

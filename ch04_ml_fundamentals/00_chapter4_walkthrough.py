@@ -1449,7 +1449,7 @@ hyperband_brackets(27)          # the halving run's numbers: 20 rows smallest, 5
 # all brackets 423 15.67
 
 # %% [markdown]
-# Each Hyperband bracket is one successive halving run, so `HalvingRandomSearchCV` with the bracket's `n_candidates` and `min_resources` runs the four brackets for real; a plain random search over as many candidates on all the data is the yardstick.
+# Each Hyperband bracket is one successive halving run, so `HalvingRandomSearchCV` with the bracket's `n_candidates` and `min_resources` runs the four brackets as live successive-halving searches; a plain random search over as many candidates on all the data is the yardstick.
 
 # %%
 # pipe, X, y (Example 4-7), dist, RandomizedSearchCV, and HalvingRandomSearchCV carry over from 4.8.2 to 4.8.5

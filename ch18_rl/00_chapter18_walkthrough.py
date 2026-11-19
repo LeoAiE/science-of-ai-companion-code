@@ -210,7 +210,7 @@ for name, algo in strategies.items():
     print(f"  {name}: total reward {avg:6.1f}   regret {regret:6.1f}")
 
 print("\ngreedy can lock onto a wrong arm and never recover; random explores but never")
-print("exploits. eps-greedy, UCB, and Thompson all balance the two - Thompson lowest regret here,")
+print("exploits. eps-greedy, UCB, and Thompson all balance the two: Thompson lowest regret here,")
 print("with eps-greedy and UCB close behind and far ahead of pure greedy or random.")
 print("bandits are exploration vs exploitation in its purest form, and run live in ads,")
 print("A/B testing, and recommendations every day.")
@@ -772,7 +772,7 @@ V_td, rmse_td = td0(n_ep)
 print(f"true V (DP)      : {np.round(V_true, 2)}")
 print(f"Monte Carlo est. : {np.round(V_mc, 2)}  (final RMSE {rmse_mc[-1]:.3f})")
 print(f"TD(0) estimate   : {np.round(V_td, 2)}  (final RMSE {rmse_td[-1]:.3f})")
-print("both approach the exact DP values WITHOUT ever being told P or R - learned from samples.")
+print("both approach the exact DP values WITHOUT ever being told P or R: learned from samples.")
 
 mc_targets = []                                          # full returns starting at state 0
 for _ in range(5000):
@@ -1228,7 +1228,7 @@ print("Double Q-learning decouples selection from evaluation and stays near the 
 # Example 18-14. Semi-gradient TD(0) with state aggregation, and Baird's divergence.
 
 # %%
-# Example: linear function approximation - semi-gradient TD(0) and Baird's counterexample
+# Example: linear function approximation: semi-gradient TD(0) and Baird's counterexample
 import numpy as np
 rng = np.random.default_rng(0)
 
@@ -1267,7 +1267,7 @@ vhat = np.array([w @ x(s) for s in range(S - 1)])
 print(f"  RMSE of Vhat over the 19 nonterminal states = {np.sqrt(np.mean((vhat - V_true[:-1]) ** 2)):.2f}")
 print("  5 numbers stand in for 19 values: close per group, blurred inside each group.")
 
-# --- part 2: Baird's counterexample - the deadly triad diverging in 7 states ---
+# --- part 2: Baird's counterexample: the deadly triad diverging in 7 states ---
 n = 7
 X = np.zeros((n, 8))                              # feature matrix: MORE weights than states
 for i in range(6): X[i, i] = 2.0; X[i, 7] = 1.0   # states 0-5: x = 2*e_i + e_7
@@ -2263,7 +2263,7 @@ print("a reward model plus an RL stage; GRPO keeps the RL loop but drops only th
 # ## 18.10.6 The same DPO on a real language model, with TRL
 
 # %% [markdown]
-# Example 18-33. DPO on distilgpt2 with TRL, on real human preference data.
+# Example 18-33. DPO on distilbert/distilgpt2 with TRL, on real human preference data.
 
 # %%
 import os
@@ -2281,9 +2281,9 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl import DPOConfig, DPOTrainer
 
 torch.manual_seed(0); np.random.seed(0)
-model = AutoModelForCausalLM.from_pretrained("distilgpt2")     # the policy pi_theta to align
-ref = AutoModelForCausalLM.from_pretrained("distilgpt2")       # held-out check only; not passed as ref_model
-tok = AutoTokenizer.from_pretrained("distilgpt2")
+model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")     # the policy pi_theta to align
+ref = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")       # held-out check only; not passed as ref_model
+tok = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
 tok.pad_token = tok.eos_token
 
 # real human preference pairs: Anthropic's HH-RLHF helpfulness comparisons
@@ -2364,7 +2364,7 @@ for reply, r, a in zip(group, rewards, adv):
 print(f"mean {rewards.mean():.3f}, population std {rewards.std():.4f}, sample std {rewards.std(ddof=1):.4f}")
 
 # %% [markdown]
-# Example 18-35. GRPO with a verifier reward and a KL penalty on distilgpt2, at two KL coefficients.
+# Example 18-35. GRPO with a verifier reward and a KL penalty on distilbert/distilgpt2, at two KL coefficients.
 
 # %%
 import os
@@ -2384,8 +2384,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl import GRPOConfig, GRPOTrainer
 
 torch.manual_seed(0); torch.set_num_threads(2)
-tok = AutoTokenizer.from_pretrained("distilgpt2"); tok.pad_token = tok.eos_token
-ref = AutoModelForCausalLM.from_pretrained("distilgpt2").eval()      # frozen copy, for the held-out check
+tok = AutoTokenizer.from_pretrained("distilbert/distilgpt2"); tok.pad_token = tok.eos_token
+ref = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2").eval()      # frozen copy, for the held-out check
 WORD = {0: "negative", 1: "positive"}
 rt = load_dataset("cornell-movie-review-data/rotten_tomatoes")         # real movie-review sentiment
 val = rt["validation"].shuffle(seed=0)
@@ -2416,7 +2416,7 @@ pl, pr, _ = heldout(ref)
 print(f"before training           : P(label word) {pl:.2f}, P(correct label) {pr:.2f}")
 for beta in [0.04, 1.0]:
     torch.manual_seed(0)
-    policy = AutoModelForCausalLM.from_pretrained("distilgpt2")     # 82M parameters, the policy
+    policy = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2")     # 82M parameters, the policy
     cfg = GRPOConfig(output_dir="grpo_tiny", beta=beta, learning_rate=1e-5, num_generations=8,
                      per_device_train_batch_size=8, max_completion_length=1, num_train_epochs=1,
                      logging_steps=8, seed=0, use_cpu=True, bf16=False, gradient_checkpointing=False,
@@ -2818,7 +2818,7 @@ print(f"\nTIER 3  PPO (Stable-Baselines3) on CartPole: mean return {mean_r:.0f} 
 print(f"        (500 is the maximum; a few lines of a tested library, the clipped objective of 18.7 inside)")
 
 print("\nthe progression: a TABLE for small discrete worlds, a NETWORK for continuous ones,")
-print("and a LIBRARY implementation of PPO for getting real work done - same RL ideas throughout.")
+print("and a LIBRARY implementation of PPO for getting real work done: same RL ideas throughout.")
 print("\nAll RL-lab checks ran.")
 
 # %% [markdown]

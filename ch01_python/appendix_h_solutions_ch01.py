@@ -610,12 +610,12 @@ notes = [
 
 def label_sentiment(notes):
     """Run the pinned sentiment pipeline on notes and return one (label, score) pair per note."""
-    sentiment = pipeline("sentiment-analysis", model=SENTIMENT_MODEL)
+    sentiment = pipeline("sentiment-analysis", model=SENTIMENT_MODEL, device="cpu")
     return [(r["label"], r["score"]) for r in sentiment(notes)]
 
 def label_topics(notes, labels):
     """Run a zero-shot-classification pipeline with a small pinned model; return each note's top label and score."""
-    topic = pipeline("zero-shot-classification", model=TOPIC_MODEL)
+    topic = pipeline("zero-shot-classification", model=TOPIC_MODEL, device="cpu")
     return [(r["labels"][0], r["scores"][0]) for r in topic(notes, candidate_labels=labels)]
 
 for note, (label, score) in zip(notes, label_sentiment(notes)):

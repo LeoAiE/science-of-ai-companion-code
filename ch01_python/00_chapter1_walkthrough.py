@@ -3500,7 +3500,7 @@ print(pred.shape, round(float(pred[0, 0]), 4))    # (1, 1) -0.8502
 from transformers import pipeline
 
 clf = pipeline("sentiment-analysis",
-               model="distilbert/distilbert-base-uncased-finetuned-sst-2-english")
+               model="distilbert/distilbert-base-uncased-finetuned-sst-2-english", device="cpu")
 print(clf("This chapter made Python finally click for me."))
 # [{'label': 'POSITIVE', 'score': 0.9956270456314087}]
 print(clf("The loss exploded and the run crashed at epoch 40."))

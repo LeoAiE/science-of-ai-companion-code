@@ -1613,7 +1613,7 @@ ohe = OneHotEncoder(handle_unknown="ignore").fit(port_rows)
 print(ohe.categories_[0].tolist(), ohe.transform(one_new).toarray().tolist())
 print(ohe.transform(pd.DataFrame({"embarked": ["Southampton"]})).toarray().tolist())   # unseen spelling
 
-# OrdinalEncoder with an explicit order does the job of the hand-written dict map
+# OrdinalEncoder with an explicit order does the job of the handwritten dict map
 cls_enc = OrdinalEncoder(categories=[["Third", "Second", "First"]]).fit(ship[["class"]])
 print(cls_enc.transform(ship[["class"]].head(3)).ravel().tolist())
 
@@ -2555,7 +2555,7 @@ print("coverage:", sum(any(x != -1 for x in v) for v in votes) / len(texts),
 # %%
 from transformers import pipeline
 clf = pipeline("sentiment-analysis",
-               model="distilbert/distilbert-base-uncased-finetuned-sst-2-english")   # pinned, as in 1.5.13
+               model="distilbert/distilbert-base-uncased-finetuned-sst-2-english", device="cpu")   # pinned, as in 1.5.13
 preds = [clf(t)[0] for t in texts]               # each prediction holds a label and a score
 auto = [1 if p["label"] == "POSITIVE" else 0 for p in preds]
 print("auto labels:", auto)                      # [1, 0, 1, 1, 0]

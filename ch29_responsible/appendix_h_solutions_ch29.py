@@ -520,5 +520,5 @@ f = lambda x: np.sin(1.5 * x)
 xs = np.linspace(4, 8, 50); flat = np.full_like(xs, -1.0)      # a net that flattens past its training range
 print(round(float(np.mean((flat - f(xs)) ** 2)), 3) > 1.0)    # expected output: True
 interests = {"agents", "efficiency"}
-papers = [("Toolformer", {"agents", "tools"}), ("KV-Cache", {"efficiency"}), ("Protein", {"biology"})]
-print(sorted(papers, key=lambda p: len(interests & p[1]), reverse=True)[0][0])   # expected output: Toolformer
+papers = [("Tool use", {"agents", "tools"}), ("KV-Cache", {"efficiency"}), ("Protein", {"biology"})]
+print(sorted(papers, key=lambda p: len(interests & p[1]), reverse=True)[0][0])   # expected output: Tool use

@@ -14,14 +14,14 @@ def latency_alarm(metrics, threshold_ms):
     return metrics["avg_latency_ms"] > threshold_ms                            # strictly greater than the threshold
 
 # in the lab's session the same call reads the live endpoint: latency_alarm(client.get("/metrics").json(), 5.0)
-normal = {"requests": 400, "avg_latency_ms": 1.356, "positive_rate": 0.618, "feature0_psi": 0.097, "drift_alarm": False}
-shifted = {"requests": 800, "avg_latency_ms": 1.366, "positive_rate": 0.472, "feature0_psi": 12.356, "drift_alarm": True}
+normal = {"requests": 400, "avg_latency_ms": 0.206, "positive_rate": 0.618, "feature0_psi": 0.097, "drift_alarm": False}
+shifted = {"requests": 800, "avg_latency_ms": 0.2, "positive_rate": 0.472, "feature0_psi": 12.356, "drift_alarm": True}
 print(latency_alarm(normal, 5.0), latency_alarm(shifted, 5.0))
 print(latency_alarm(normal, 0.1), latency_alarm(shifted, 0.1))
 # expected output: False False
 # expected output: True True
-# the two dictionaries are the /metrics results the lab printed on one run on the reference machine, the
-# author's Windows PC; their latencies vary from run to run, while 5.0 ms and 0.1 ms sit far from either value
+# the two dictionaries are the /metrics results the lab printed on one run on the reference machine;
+# their latencies vary from run to run, while 5.0 ms and 0.1 ms sit far from either value
 
 # %% [markdown]
 # ## 28.13 coding exercises
@@ -259,7 +259,7 @@ print(f"loop {loop * 1000:.1f} ms, batch {bat * 1000:.1f} ms, ratio {loop / bat:
 print(f"batched faster than loop: {bat < loop}")
 # expected output: valid HTTP 200 {'probability': 0.999, 'label': 0} (true class 0); invalid HTTP 422
 # expected output: batched faster than loop: True
-# loop 586.7 ms, batch 0.9 ms, ratio 660x
+# loop 596.7 ms, batch 0.8 ms, ratio 713x
 # (one run on the reference machine, the author's Windows PC with an Intel Core i7-7800X, 6 cores and 12
 # threads, under Python 3.13.18; the times vary by machine and from run to run.)
 

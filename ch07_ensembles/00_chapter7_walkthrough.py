@@ -970,10 +970,10 @@ print(len(y_te), miss["XGBoost"], miss["LightGBM"], miss["CatBoost"])
 # ## 7.6 Short PyMC-BART chain
 
 # %%
-# Requires: pip install pymc pymc-bart. PYTENSOR_FLAGS=cxx= keeps PyTensor in pure Python.
+# Requires: pip install pymc pymc-bart. PYTENSOR_FLAGS=cxx=,numba__fastmath=False matches Example 9-26 (no C++ compiler; Numba without fast math).
 # pymc_bart.BART starts a helper process, so on Windows and macOS a script needs the __main__ guard.
 import os
-os.environ["PYTENSOR_FLAGS"] = "cxx="
+os.environ["PYTENSOR_FLAGS"] = "cxx=,numba__fastmath=False"
 os.environ["OMP_NUM_THREADS"] = "2"
 import numpy as np
 import pymc as pm
@@ -1024,7 +1024,7 @@ print(round(covered, 3), round(float(np.mean(p_hi - p_lo)), 1))                 
 
 # %%
 import os
-os.environ["PYTENSOR_FLAGS"] = "cxx="
+os.environ["PYTENSOR_FLAGS"] = "cxx=,numba__fastmath=False"
 os.environ["OMP_NUM_THREADS"] = "2"
 import numpy as np
 import arviz as az

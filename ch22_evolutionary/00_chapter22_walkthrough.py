@@ -54,7 +54,7 @@ print("\nthe explore-vs-exploit dial (the same tradeoff as bandits and RL):")
 print("  too much EXPLOIT -> stuck in a local optimum (like plain gradient descent / hill climbing)")
 print("  too much EXPLORE -> pure random search, slow to refine")
 print("  the methods ahead (annealing, GAs, ES, PSO) are different ways to balance the two,")
-print("  needing only the ability to EVALUATE candidates - never to differentiate them.")
+print("  needing only the ability to EVALUATE candidates: never to differentiate them.")
 
 print("\nAll when-gradients-fail checks ran.")
 
@@ -347,11 +347,11 @@ for gen in range(GENS):
     pop = np.array(new)
     history.append(rastrigin(pop).min())
 
-print(f"\nGA on 5-D Rastrigin (pop {POP}, {GENS} generations):")
+print(f"\nGA on 5D Rastrigin (pop {POP}, {GENS} generations):")
 for g in [0, 10, 30, 79]:
     print(f"  generation {g:2d}: best f = {history[g]:.3f}")
 print(f"final best f = {history[-1]:.3f} (global min is 0); fitness climbs as good genes spread.")
-print("random search in 5-D rarely gets close; the population + crossover + selection do.")
+print("random search in 5D rarely gets close; the population + crossover + selection do.")
 
 print("\nGA design choices:")
 print("  selection pressure (tournament size): high -> fast convergence but risks premature collapse")
@@ -476,7 +476,7 @@ def es_rastrigin(dim=5, lam=40, mu=10, gens=120, sigma=2.0):
         m = elite.mean(0)                                    # recenter on the elite
         sigma *= 0.98                                        # cool the step size
     return rastrigin(m[None])[0]
-print(f"(mu,lambda)-ES on 5-D Rastrigin: final f = {es_rastrigin():.3f}  (global min 0)")
+print(f"(mu,lambda)-ES on 5D Rastrigin: final f = {es_rastrigin():.3f}  (global min 0)")
 
 def ill(X): return X[..., 0] ** 2 + 100 * X[..., 1] ** 2     # optimum at (0,0); 100:1 conditioning
 
@@ -504,7 +504,7 @@ print("  (mu, lambda) : select from offspring only (non-elitist; better at escap
 print("  (mu + lambda): select from parents + offspring (elitist; never loses the best)")
 print("  CMA-ES       : adapts a full covariance matrix AND step size; a strong black-box")
 print("                 optimizer for problems of low to moderate dimension (Section 22.4.1 names its uses).")
-print("  ES parallelizes trivially (evaluate all offspring at once) - a plus for expensive simulators.")
+print("  ES parallelizes trivially (evaluate all offspring at once): a plus for expensive simulators.")
 
 print("\nAll evolution-strategy checks ran.")
 
@@ -584,7 +584,7 @@ def cem(seed, floor):
     return best, mu, sig
 
 best, mu, sig = cem(0, 0.05)
-print(f"CEM on 5-D Rastrigin: best f = {best:.4f}")
+print(f"CEM on 5D Rastrigin: best f = {best:.4f}")
 for seed, floor in ((0, 0.0), (2, 0.0), (2, 0.05)):
     best, mu, sig = cem(seed, floor)
     print(f"seed {seed}, floor {floor}: best f = {best:.4f}, final mean {(np.round(mu, 3) + 0.0).tolist()}, "
@@ -683,7 +683,7 @@ best_p = evolve(score, "parsimony")
 
 print("\nboth runs fit the data exactly (target was x^2 + 2x + 1), but the parsimony run's")
 print("population stays lean while the plain-MSE population bloats with useless subtrees.")
-print("GP rediscovered the underlying equation from data alone - a readable formula, not a black box.")
+print("GP rediscovered the underlying equation from data alone: a readable formula, not a black box.")
 print("that interpretability is the reason to want the formula itself, not only a fitted score.")
 
 print("\nAll genetic-programming checks ran.")
@@ -734,7 +734,7 @@ print(f"\nfinal: XOR accuracy = {accuracy(best):.2f}; predictions = {np.round(fo
 print("the network learned XOR purely by selection and mutation, never computing a gradient.")
 
 print("\nthe neuroevolution landscape:")
-print("  fixed-topology: evolve only the weights (what we did) - simple, good for small nets")
+print("  fixed-topology: evolve only the weights (what we did): simple, good for small nets")
 print("  NEAT          : the name for evolving TOPOLOGY along with the weights; not developed here")
 print("  HyperNEAT     : the name for evolving a function that GENERATES the weights; not developed here")
 print("  ES vs policy gradients (RL): Evolution Strategies optimize the reward DIRECTLY (no")
@@ -879,7 +879,7 @@ for it in range(ITERS):
     pbest[improved] = x[improved]; pbest_f[improved] = f[improved]   # each particle's own best
     if pbest_f.min() < gbest_f:
         gbest = pbest[pbest_f.argmin()].copy(); gbest_f = pbest_f.min()   # swarm's best
-print(f"PSO on 5-D Rastrigin: best f = {gbest_f:.3f} at x = {(np.round(gbest, 3) + 0.0).tolist()}")   # + 0.0 turns -0.0 into 0.0
+print(f"PSO on 5D Rastrigin: best f = {gbest_f:.3f} at x = {(np.round(gbest, 3) + 0.0).tolist()}")   # + 0.0 turns -0.0 into 0.0
 print(f"  distance from the origin = {np.linalg.norm(gbest):.3f}  (the global minimum is f = 0 at the origin)")
 
 # 20 real US state capitals: (latitude, longitude) in degrees, rounded to two decimals from the
@@ -1038,7 +1038,7 @@ def differential_evolution(f, pop=40, F=0.5, CR=0.9):
     return fit.min()
 
 de_rastrigin = np.mean([differential_evolution(rastrigin) for _ in range(3)])
-print(f"differential evolution on {DIM}-D Rastrigin: mean best f over 3 runs = {de_rastrigin:.3f}  (min 0)")
+print(f"differential evolution on {DIM}D Rastrigin: mean best f over 3 runs = {de_rastrigin:.3f}  (min 0)")
 
 def staircase(x): return np.sum(np.floor(np.abs(x)) ** 2)         # flat steps: gradient is useless
 def grad_descent(f, lr=0.1, eps=1e-4):
@@ -1061,7 +1061,7 @@ for name, r in results.items():
     win = min(r, key=r.get)
     print(f"  {name:24s} {r['gradient descent']:17.3f} {r['random search']:15.3f}   {win}")
 print("\ngradient descent wins on the smooth function; random search wins on the flat-stepped one")
-print("(where the gradient is useless). NO single method is best everywhere - the No Free Lunch")
+print("(where the gradient is useless). NO single method is best everywhere: the No Free Lunch")
 print("theorem (Chapter 4): a method only wins by matching the problem's structure.")
 
 print("\nAll DE / no-free-lunch checks ran.")
@@ -1251,7 +1251,7 @@ for gen in range(GENS2):
 best_reward = max(reward_of(w, episodes=5) for w in popw)
 print(f"  final best policy: mean reward = {best_reward:.0f}")
 print(f"  environment steps spent by the 30 generations of search: {steps:,}")
-print("\nneuroevolution solved CartPole by evolving 10 weights from REWARD alone - no backprop,")
+print("\nneuroevolution solved CartPole by evolving 10 weights from REWARD alone: no backprop,")
 print("no value function, no policy gradient. Chapter 18's PPO also reached 500, with gradients and a")
 print("30,000-timestep training budget; ES needed no gradient code but spent many more environment steps.")
 

@@ -135,7 +135,7 @@ def edit_counts(r, h):
     assert S + D + I == d[len(r), len(h)]                 # the three counts add up to the final cell
     return S, D, I
 torch.manual_seed(0); torch.set_num_threads(2)
-asr = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en")
+asr = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en", device="cpu")
 ls = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean",
                   split="validation").cast_column("audio", Audio(decode=False))
 for k in range(3):

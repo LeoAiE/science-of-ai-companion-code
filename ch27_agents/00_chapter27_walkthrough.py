@@ -61,7 +61,7 @@ def agent(goal, max_steps=3):
 print("\nAGENT (loops with a calculator tool):")
 result = agent(task)
 print(f"  FINAL: {result}")
-print("\nthe chatbot can only TALK about the task; the agent ACTS on it - calling a tool, observing the")
+print("\nthe chatbot can only TALK about the task; the agent ACTS on it: calling a tool, observing the")
 print("result, and deciding when it is done. That perceive-decide-act-observe loop is what 'agentic' means.")
 
 print("\nAll chatbots-to-agents checks ran.")
@@ -147,7 +147,7 @@ print(f"problem: {problem}\n")
 answer = react(problem)
 print(f"\nReAct result: {answer}  (correct: 103)")
 print("\nthe agent reasoned (Thought), computed (Action), read the result (Observation), and then")
-print("decided it was done (Finish) - the loop that lets an LLM tackle problems a single pass cannot.")
+print("decided it was done (Finish): the loop that lets an LLM tackle problems a single pass cannot.")
 
 print("\nAll ReAct checks ran.")
 
@@ -231,7 +231,7 @@ print("\nagent asked for the price of a 'Gadget' - a clean call succeeds directl
 ans = agent_call("How much does a Gadget cost?")
 print(f"  -> {ans}")
 
-print("\nagent asked for two prices at once - watch the error fed back and the corrected retry:")
+print("\nagent asked for two prices at once: watch the error fed back and the corrected retry:")
 ans = agent_call("How much do a gadget and a gizmo cost together? Look up prices, then add them with calc.")
 print(f"  -> {ans}")
 
@@ -239,7 +239,7 @@ print("\nagent asked for the price of a sprocket, an item the catalog does not h
 ans = agent_call("How much does a sprocket cost?")
 print(f"  -> {ans}")
 print("\nschemas tell the model HOW to call a tool; validated execution dispatches it; and catching")
-print("errors as feedback lets the agent self-correct instead of crashing - essential for reliability.")
+print("errors as feedback lets the agent self-correct instead of crashing: essential for reliability.")
 
 print("\nAll tool-use checks ran.")
 
@@ -458,7 +458,7 @@ for i in range(2, 4):
                   f"'{required}': '{attempt}'", n=25).split("\n")[0]
     print(f"attempt {i}: '{attempt}' -> contains '{required}': {ok(attempt)}")
 print(f"  verifier-guided self-correction {'satisfied' if ok(attempt) else 'did not satisfy'} the constraint.")
-print("  (a verifier - a keyword check, a unit test, a type check - turns vague 'reflection' into a hard signal.)")
+print("  (a verifier, a keyword check, a unit test, or a type check, turns vague 'reflection' into a hard signal.)")
 
 def Sequence(*nodes):                                     # succeeds only if ALL children succeed, in order
     def run(state):
@@ -483,7 +483,7 @@ print("\nbehavior tree run WITH a tool available:")
 policy({"tool": True})
 print("behavior tree run WITHOUT a tool (falls back):")
 policy({"tool": False})
-print("  Sequence/Selector give agents predictable, debuggable control - no surprises from the LLM.")
+print("  Sequence/Selector give agents predictable, debuggable control: no surprises from the LLM.")
 
 print("\nAll planning checks ran.")
 
@@ -770,7 +770,7 @@ for query in ["what did the user order before?", "what should I buy the user?", 
     print(f"\nquery: '{query}'")
     print(f"  best memory [{labels[i]}]: '{texts[i]}'")
 print("\nshort-term memory is fast but bounded; long-term memory (episodic, semantic, procedural)")
-print("lives outside the window and is pulled in by relevance - that is how agents persist knowledge.")
+print("lives outside the window and is pulled in by relevance: that is how agents persist knowledge.")
 
 print("\nAll memory checks ran.")
 
@@ -971,9 +971,9 @@ class ToolServer:                                           # a minimal stand-in
         return {"content": self._tools[name]["fn"](**arguments)}
 
 server = ToolServer()
-print("MCP-style discovery - the client asks the server what tools exist:")
+print("MCP-style discovery: the client asks the server what tools exist:")
 print("  " + json.dumps(server.list_tools()[0]))
-print("MCP-style invocation - the client calls a discovered tool by name with typed args:")
+print("MCP-style invocation: the client calls a discovered tool by name with typed args:")
 print("  call_tool('get_weather', {'city': 'Denver'}) ->", json.dumps(server.call_tool("get_weather", {"city": "Denver"})))
 print("  call_tool('get_stock',   {...})              ->", json.dumps(server.call_tool("get_stock", {"x": 1})))
 
@@ -1000,7 +1000,7 @@ print("\nA2A-style routing by capability card, then a request/response message p
 response = send("get_weather", {"city": "Paris"})
 print(f"  response: {json.dumps(response)}")
 print("\nMCP standardizes how an agent finds and calls tools; A2A standardizes how agents")
-print("advertise skills and exchange tasks - shared protocols are what let agents interoperate.")
+print("advertise skills and exchange tasks: shared protocols are what let agents interoperate.")
 
 print("\nAll protocol checks ran.")
 
@@ -1043,7 +1043,7 @@ async def mcp_demo():
     async with Client(transport) as client:           # connect and run the MCP handshake
         tools = await client.list_tools()             # DISCOVERY over the real protocol
         for t in tools.tools:
-            print(f"discovered: {t.name} - {t.description}")
+            print(f"discovered: {t.name}: {t.description}")
             print(f"  input schema: {t.input_schema['properties']}")
         result = await client.call_tool("get_weather", {"city": "Denver"})   # INVOCATION
         print(f"call_tool('get_weather', city='Denver') -> {json.loads(result.content[0].text)}")
@@ -1126,7 +1126,7 @@ for label, snippet in [("safe", "result = sum(range(10))"),
     allowed, hits = sandbox_guard(snippet)
     print(f"  [{label}] guard {'ALLOWS' if allowed else 'BLOCKS'} -> {snippet!r}" + (f"  (matched {hits})" if hits else ""))
 print("  NOTE: a token/AST filter is only a first screen; real isolation needs a container or VM,")
-print("        because in-process exec can be escaped - never trust string checks alone.")
+print("        because in-process exec can be escaped: never trust string checks alone.")
 
 gui = {"username": "", "password": "", "logged_in": False}  # a tiny login screen as state
 def type_into(field, text): gui[field] = text; print(f"    type '{text}' into [{field}]")
@@ -1215,7 +1215,7 @@ print("\nrunning a 3-node workflow graph (start -> compute -> answer):")
 final = run_graph(GRAPH, FNS, {"q": " 7 * (3 + 1) "})
 print(f"  graph output: {final['out']}")
 print("\na framework hands you the Agent loop; a no-code platform lets you WIRE nodes into a")
-print("graph like this one without writing the runner - same pieces, different level of abstraction.")
+print("graph like this one without writing the runner: same pieces, different level of abstraction.")
 
 print("\nAll framework checks ran.")
 
@@ -1313,7 +1313,7 @@ def agent_loop(system, scratch, dispatch, max_steps=3, trace=None):
         scratch += "\n" + feedback
     return "(max steps)"
 
-def run_agent(goal, max_steps=3):                           # returns (answer, trace) - the trace is the audit log
+def run_agent(goal, max_steps=3):                           # returns (answer, trace): the trace is the audit log
     system = ('Tool: calc(x). To use it reply ONLY {"tool":"calc","x":"<arithmetic>"}; '
               'when done reply ONLY {"final":"<number>"}.')
     def dispatch(act, step, trace):                         # the ONE new idea: record every action in a trace
@@ -1339,7 +1339,7 @@ for goal, expected in SUITE:
     print(f"  {goal:18s} expected {expected:<3} got {ans:<6} -> {'OK' if ok else 'MISS'}")
 print(f"  task success rate = {succ}/{len(SUITE)} = {succ/len(SUITE):.0%}, avg steps = {steps/len(SUITE):.1f}")
 print("\nguardrails contain what an agent may do; tracing shows what it DID; success-rate eval shows")
-print("whether it WORKS - the three together are what make an autonomous agent safe to deploy.")
+print("whether it WORKS: the three together are what make an autonomous agent safe to deploy.")
 
 print("\nAll safety/eval checks ran.")
 

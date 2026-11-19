@@ -436,7 +436,7 @@ print(f"  mean confidence in the true label: members {conf_m.mean():.3f} vs non-
 confs = np.concatenate([conf_m, conf_n])
 labels = np.concatenate([np.ones_like(conf_m), np.zeros_like(conf_n)])
 best = max(((confs > tau).astype(int) == labels).mean() for tau in np.linspace(confs.min(), confs.max(), 400))
-print(f"  membership-inference accuracy: {best:.3f}  (a coin flip is 0.500) - a real, measurable leak.")
+print(f"  membership-inference accuracy: {best:.3f}  (a coin flip is 0.500): a real, measurable leak.")
 
 print("\nAll privacy checks ran.")
 
@@ -672,7 +672,7 @@ surrogate = RandomForestClassifier(n_estimators=100, random_state=1).fit(Xquery,
 agreement = (surrogate.predict(Xeval) == target.predict(Xeval)).mean()   # agreement on a fresh held-out set
 print("\nmodel extraction on real digits (attacker queries a held-out image pool):")
 print(f"  target test accuracy: {target.score(Xte, yte):.3f}")
-print(f"  surrogate trained only on the target's answers agrees with it {agreement:.0%} of the time -")
+print(f"  surrogate trained only on the target's answers agrees with it {agreement:.0%} of the time:")
 print("  the model's behavior was copied through its API, no weights needed.")
 print("\nadversarial inputs, poisoned data, prompt injection, and extraction are AI-specific threats;")
 print("each needs its own defense (robust training, data vetting, input isolation, rate-limiting).")
@@ -737,7 +737,7 @@ print(f"ART PGD eps=0.1, 10 steps of 0.02 from the input itself: accuracy {art_a
 
 # %%
 TIERS = {
-    "unacceptable": "BANNED - may not be deployed",
+    "unacceptable": "BANNED: may not be deployed",
     "high":         "conformity assessment + documentation + human oversight + logging",
     "limited":      "transparency: disclose that users are interacting with AI",
     "minimal":      "no specific obligations",
@@ -775,7 +775,7 @@ for use_case, med in [("social scoring", False), ("credit scoring", False),
 
 print("\nthe same model can be minimal-risk or high-risk depending on USE: a face-matcher in a photo")
 print("app vs. in policing, or emotion recognition banned at work but high-risk elsewhere. Regulation")
-print("attaches to the application, not the algorithm - so the practitioner must know the deployment")
+print("attaches to the application, not the algorithm: so the practitioner must know the deployment")
 print("context. (GDPR adds data rights; the US NIST AI RMF adds a voluntary framework.)")
 
 print("\nAll regulation checks ran.")
@@ -807,8 +807,8 @@ def mse_on(lo, hi):
     return float(np.mean((pred - f(xs)) ** 2))
 
 print("network trained on x in [-3, 3] (the true rule is sin(1.5x)):")
-print(f"  INTERPOLATION  MSE on [-3, 3] : {mse_on(-3, 3):.4f}   (excellent - it learned the data)")
-print(f"  EXTRAPOLATION  MSE on [ 4, 8] : {mse_on(4, 8):.4f}   (terrible - it never learned the RULE)")
+print(f"  INTERPOLATION  MSE on [-3, 3] : {mse_on(-3, 3):.4f}   (excellent: it learned the data)")
+print(f"  EXTRAPOLATION  MSE on [ 4, 8] : {mse_on(4, 8):.4f}   (terrible: it never learned the RULE)")
 
 print("\n  x   true sin(1.5x)   network")
 for xq in [3.0, 5.0, 7.0]:
@@ -816,8 +816,8 @@ for xq in [3.0, 5.0, 7.0]:
     print(f"  {xq:.0f}     {f(xq):+.2f}          {p:+.2f}")
 print("  -> past the training edge the network flattens out; the periodic rule is gone.")
 print("\ndeep nets interpolate brilliantly and extrapolate badly because they fit the training")
-print("distribution, not the generating rule. Closing that gap - rule-learning, reasoning, world")
-print("models, embodied agents - is the open frontier this section's prose surveys.")
+print("distribution, not the generating rule. Closing that gap: rule learning, reasoning, world")
+print("models, embodied agents: is the open frontier this section's prose surveys.")
 
 print("\nAll frontier checks ran.")
 
@@ -939,7 +939,7 @@ print(f"Fisher information from {len(tr1)} task 1 digits over {sum(p.numel() for
 # %%
 CO2_PER_KWH = 0.40        # assumed kg CO2 per kWh, a round factor, not a cited grid average
 WATER_PER_KWH = 1.8       # assumed liters of water per kWh, a round factor for the arithmetic
-CAR_TONNES_YR = 4.6       # 4.6 metric tons CO2 a year for a typical car (U.S. Environmental Protection Agency, 2026)
+CAR_TONS_YR = 4.6       # 4.6 metric tons CO2 a year for a typical car (U.S. Environmental Protection Agency, 2026)
 
 def footprint(kwh):
     return kwh * CO2_PER_KWH, kwh * WATER_PER_KWH           # -> (kg CO2, liters water)
@@ -949,7 +949,7 @@ train_kwh = n_gpus * gpu_kw * hours * pue
 train_co2, train_water = footprint(train_kwh)
 print("TRAINING (1024 GPUs x 400W x 720h, PUE 1.1):")
 print(f"  energy {train_kwh:>12,.0f} kWh | CO2 {train_co2/1000:>7.1f} metric tons | water {train_water:>11,.0f} L")
-print(f"  that one training run ~= {train_co2/1000/CAR_TONNES_YR:.0f} cars driven for a year.")
+print(f"  that one training run ~= {train_co2/1000/CAR_TONS_YR:.0f} cars driven for a year.")
 
 per_query_wh = 0.3                                          # assumed energy for one model query (Wh)
 queries_per_day = 100_000_000                               # assumed traffic of a popular service
@@ -965,9 +965,9 @@ saved_kwh = (per_query_wh - efficient_wh) / 1000 * queries_per_day * 365
 saved_co2, saved_water = footprint(saved_kwh)
 print(f"\nGREEN AI (halve per-query energy to 0.15 Wh via a smaller/quantized model):")
 print(f"  saves {saved_kwh:>12,.0f} kWh/yr | {saved_co2/1000:>7.1f} metric tons CO2/yr | {saved_water:>11,.0f} L/yr")
-print(f"  = {saved_co2/1000/CAR_TONNES_YR:.0f} cars off the road, every year, from one efficiency change.")
+print(f"  = {saved_co2/1000/CAR_TONS_YR:.0f} cars off the road, every year, from one efficiency change.")
 print("\nthe energy, carbon, and water of AI are real and measurable; efficiency (quantization,")
-print("distillation, caching, right-sized models) is how you do more with less - the Green AI agenda.")
+print("distillation, caching, right-sized models) is how you do more with less: the Green AI agenda.")
 
 print("\nAll sustainability checks ran.")
 
@@ -1017,7 +1017,7 @@ print("\nAll AI-for-science checks ran.")
 # %%
 interests = {"agents", "retrieval", "efficiency", "evaluation"}
 papers = [
-    ("Toolformer: Language Models That Teach Themselves to Use Tools", {"agents", "tools", "llm"}),
+    ("Language Model Agents That Learn to Choose Their Tools", {"agents", "tools", "llm"}),
     ("A 2x Faster KV-Cache for Long-Context Inference",                {"efficiency", "inference", "llm"}),
     ("Diffusion Models for Protein Backbone Generation",               {"biology", "diffusion"}),
     ("Self-Reflection Improves Agent Evaluation Benchmarks",           {"agents", "evaluation", "reasoning"}),
@@ -1041,7 +1041,7 @@ print("\nthe three-pass method (apply Pass 3 only to papers that earned it in Pa
 for name, what in PASSES:
     print(f"  {name}: {what}")
 print("\ntriage ruthlessly, skim widely, read deeply rarely. Follow a few primary sources (arXiv, the")
-print("labs' blogs, key conferences) over the firehose, and re-implement the ideas that matter - the")
+print("labs' blogs, key conferences) over the firehose, and reimplement the ideas that matter: the")
 print("from-scratch habit this whole book used is also the best way to truly understand a new paper.")
 
 print("\nAll staying-current checks ran.")
@@ -1076,7 +1076,7 @@ card = {
                      "(426 used for training, 143 held out)",
 }
 
-# Performance: never just one number - report it per class as well (Section 29.1's habit).
+# Performance: never just one number: report it per class as well (Section 29.1's habit).
 pred = clf.predict(Xte)
 card["held_out_accuracy"] = round(float((pred == yte).mean()), 3)
 card["recall_malignant"] = round(float(pred[yte == 1].mean()), 3)      # of true malignant, caught

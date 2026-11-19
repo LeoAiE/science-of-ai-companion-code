@@ -1135,7 +1135,7 @@ good = np.array([1,1,1,0,0,0,0,0,0,0]); bad = np.array([0,0,0,0,0,0,0,1,1,1])
 print(f"\nsame 3 relevant items, NDCG@10: ranked first = {ndcg(good,10):.2f}, "
       f"ranked last = {ndcg(bad,10):.2f}")
 
-# MAP, MRR, hit-rate - also on constructed lists
+# MAP, MRR, hit-rate: also on constructed lists
 def average_precision(rel):
     hits = 0; s = 0.0
     for i, r in enumerate(rel, start=1):

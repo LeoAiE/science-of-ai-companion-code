@@ -36,7 +36,7 @@ print(f"  once costs about ${total/1e6*price_per_m:.4f} in input tokens")
 
 # STEP 2 - the two decoding regimes (Section 23.3) on a review-style prefix
 # device="cpu" keeps the pipeline on the processor the book's outputs come from (Section 23.3)
-gen = pipeline("text-generation", model="distilgpt2", device="cpu")
+gen = pipeline("text-generation", model="distilbert/distilgpt2", device="cpu")
 prefix = "The movie was"
 greedy = gen(prefix, max_new_tokens=10, do_sample=False,
              pad_token_id=50256, truncation=True)[0]["generated_text"]
@@ -87,8 +87,8 @@ for name, threshold in [("raw (m > 0)", 0.0), (f"calibrated (m > {m_cf:.3f})", m
           f"on negatives {np.mean(pred[y == 0] == 0):.3f}")
 
 # STEP 4 - the intrinsic check (Sections 15.5.2 and 23.8): perplexity flags fluency.
-lm_tok = AutoTokenizer.from_pretrained("distilgpt2")
-lm = AutoModelForCausalLM.from_pretrained("distilgpt2").eval()
+lm_tok = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+lm = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2").eval()
 def perplexity(text):
     ids = lm_tok(text, return_tensors="pt").input_ids
     with torch.no_grad():
@@ -100,7 +100,7 @@ for t in ds["text"][:5]:
     ppl_real.append(perplexity(t))
     w = t.split(); rng.shuffle(w)
     ppl_shuf.append(perplexity(" ".join(w)))
-print(f"\nSTEP 4 - perplexity on the first 5 reviews (distilgpt2):")
+print(f"\nSTEP 4 - perplexity on the first 5 reviews (distilbert/distilgpt2):")
 print(f"  as written : mean {np.mean(ppl_real):7.1f}")
 print(f"  shuffled   : mean {np.mean(ppl_shuf):7.1f}")
 print(f"  shuffling raised perplexity on {sum(a < b for a, b in zip(ppl_real, ppl_shuf))}/5 reviews")

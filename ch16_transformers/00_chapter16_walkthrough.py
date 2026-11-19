@@ -727,7 +727,7 @@ rows = [("layers", n_layer, cfg.n_layer), ("heads", n_head, cfg.n_head),
          cfg.activation_function),
         ("dropout rates", toy_drop or "none", (cfg.attn_pdrop, cfg.resid_pdrop, cfg.embd_pdrop)),
         ("tied head", toy.head.weight is toy.tok_emb.weight, cfg.tie_word_embeddings)]
-print(f"{'setting':14s} {'mini-GPT':>12s} {'distilgpt2':>16s}")
+print(f"{'setting':14s} {'mini-GPT':>12s} {'distilbert/distilgpt2':>16s}")
 for name, ours, theirs in rows:
     print(f"{name:14s} {str(ours):>12s} {str(theirs):>16s}")
 
@@ -758,7 +758,7 @@ in_ids = tok(prompt, return_tensors="pt").input_ids
 out_ids = model.generate(in_ids, max_new_tokens=12, do_sample=False,   # greedy: reproducible
                          pad_token_id=tok.eos_token_id)
 generated = tok.decode(out_ids[0], skip_special_tokens=True).strip()
-print(f"distilgpt2 has {n_params:,} parameters ({n_params/1e6:.0f}M)")
+print(f"distilbert/distilgpt2 has {n_params:,} parameters ({n_params/1e6:.0f}M)")
 print(f"prompt    : {prompt!r}")
 print(f"generated : {generated!r}")
 

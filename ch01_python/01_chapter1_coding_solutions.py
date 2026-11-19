@@ -622,7 +622,7 @@ notes = [
 ]
 
 sentiment = pipeline("sentiment-analysis",
-                     model="distilbert/distilbert-base-uncased-finetuned-sst-2-english")
+                     model="distilbert/distilbert-base-uncased-finetuned-sst-2-english", device="cpu")
 for note, result in zip(notes, sentiment(notes)):
     print(f"{result['label']:8s} {result['score']:.3f}  {note}")
 # NEGATIVE 0.999  The loss dropped steadily for the first ten epochs.
@@ -637,7 +637,8 @@ for note, result in zip(notes, sentiment(notes)):
 # NEGATIVE 0.999  The tokenizer silently truncated every input longer than 512 tokens.
 
 topic = pipeline("zero-shot-classification",
-                 model="MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33")   # 142 MB, trained for zero-shot use
+                 model="MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33",
+                 device="cpu")   # 142 MB, trained for zero-shot use
 labels = ["bug", "feature request", "question"]
 for note, result in zip(notes, topic(notes, candidate_labels=labels)):
     print(f"{result['labels'][0]:16s} {result['scores'][0]:.3f}  {note}")

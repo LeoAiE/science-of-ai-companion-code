@@ -82,7 +82,7 @@ print(f"  spectrogram-CNN train accuracy = {trn:.2f}, test accuracy = {acc:.2f} 
 
 import re
 from transformers import pipeline
-asr = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en")
+asr = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en", device="cpu")
 ds = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean",
                   split="validation").cast_column("audio", Audio(decode=False))
 def norm(s): return re.sub(r"[^a-z0-9 ]", "", s.lower()).split()

@@ -50,7 +50,7 @@ print(f"  word limit of under 40: {'met' if words < 40 else 'missed'} ({words} w
 
 print("\nthe five ingredients (ROLE, CONTEXT, TASK, FORMAT, CONSTRAINTS) turn a wish into a spec.")
 print("vague prompts make the model guess what you want; specifying format and constraints makes the")
-print("output predictable and parseable - the foundation everything else in this chapter builds on.")
+print("output predictable and parseable: the foundation everything else in this chapter builds on.")
 
 print("\nAll prompt-anatomy checks ran.")
 
@@ -112,7 +112,7 @@ print("  least-to-most    : decompose into ordered subproblems, solve in sequenc
 print("\nAll core-technique checks ran.")
 
 # %% [markdown]
-# ## Least-to-most prompting and prompt chaining, run for real
+# ## Least-to-most prompting and prompt chaining, on real data
 
 # %% [markdown]
 # The decomposition is fixed by hand here so the run is reproducible; in the full method the model proposes its own subquestions first and then solves them in order (Zhou et al., 2022).
@@ -215,7 +215,7 @@ if call and call.get("tool") == "calc":
     print(f"  numbers in the final answer: {said}; "
           f"any equal to the tool's {result}: {any(s.replace(',', '') == str(result) for s in said)}")
 print("\nthe model decides WHEN to call a tool and WITH WHAT arguments; the program executes it and")
-print("returns the result. Looping this - think, call tool, observe, repeat - is exactly an agent (Ch27).")
+print("returns the result. Looping this (think, call tool, observe, repeat) is exactly an agent (Ch27).")
 
 print("\nAll structured-output / tool-calling checks ran.")
 

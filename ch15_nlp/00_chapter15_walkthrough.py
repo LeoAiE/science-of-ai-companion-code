@@ -1112,7 +1112,7 @@ print(f"first 200 questions: exact match {100 * em:.1f}, F1 {100 * fs:.1f}")
 for r, p in list(zip(rows, preds))[:3]:
     print(f"  Q: {r['question']}  ->  {p!r}  (gold {sorted(set(r['answers']['text']))})")
 try:
-    pipeline("question-answering", model=qa_id)       # the pipeline that earlier releases offered
+    pipeline("question-answering", model=qa_id, device="cpu")       # the pipeline that earlier releases offered
 except KeyError as err:
     print("KeyError:", str(err).split(".")[0])
 

@@ -245,7 +245,7 @@ import soundfile as sf
 from transformers import pipeline
 from datasets import load_dataset, Audio
 
-asr = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en")
+asr = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en", device="cpu")
 # decode=False avoids datasets' torchcodec dependency; we read the audio with soundfile ourselves
 ds = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean",
                   split="validation").cast_column("audio", Audio(decode=False))
@@ -628,7 +628,7 @@ print(f"\nreal TTS: VITS (facebook/mms-tts-eng) spoke {len(wav)} samples at {sr_
       f"= {len(wav)/sr_tts:.2f} s -> 03_tts_synth.wav")
 
 # close the loop: does an independent listener understand the synthetic speech?
-asr = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en")
+asr = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en", device="cpu")
 heard = asr({"raw": wav.astype(np.float32), "sampling_rate": sr_tts})["text"].strip()
 print(f"whisper-tiny hears: '{heard}'")
 
@@ -789,7 +789,7 @@ from datasets import load_dataset, Audio
 from scipy.signal import resample_poly
 from transformers import pipeline
 
-tagger = pipeline("audio-classification", model="MIT/ast-finetuned-audioset-10-10-0.4593")
+tagger = pipeline("audio-classification", model="MIT/ast-finetuned-audioset-10-10-0.4593", device="cpu")
 CLASSES = ["dog", "siren", "crying_baby"]
 ds = (load_dataset("ashraq/esc50", split="train")
       .cast_column("audio", Audio(decode=False))
@@ -1614,7 +1614,7 @@ print(f"  spectrogram-CNN train accuracy = {trn:.2f}, test accuracy = {acc:.2f} 
 
 import re
 from transformers import pipeline
-asr = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en")
+asr = pipeline("automatic-speech-recognition", model="openai/whisper-tiny.en", device="cpu")
 ds = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean",
                   split="validation").cast_column("audio", Audio(decode=False))
 def norm(s): return re.sub(r"[^a-z0-9 ]", "", s.lower()).split()

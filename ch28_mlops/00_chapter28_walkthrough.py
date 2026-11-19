@@ -56,7 +56,7 @@ print(f"  random selection catches  ~{random_caught:.0f} malignant cases   (the 
 print(f"  model-ranked selection catches {model_caught} malignant cases")
 print(f"  held-out malignant cases: {n_malignant}; precision {model_caught}/{budget} = {model_caught / budget:.3f}, "
       f"recall {model_caught}/{n_malignant} = {model_caught / n_malignant:.3f}")
-print(f"  lift = {model_caught / random_caught:.1f}x over the base rate - THIS is the model's business value.")
+print(f"  lift = {model_caught / random_caught:.1f}x over the base rate: THIS is the model's business value.")
 
 print("\nscope first: skip ML when a rule will do, and never ship a model without a baseline and a")
 print("success metric stated in the numbers the business actually cares about.")
@@ -140,12 +140,12 @@ for row in Xte:
 right = (np.array(right_preds) == yte).mean()
 wrong = (np.array(wrong_preds) == yte).mean()
 print("\nscoring each held-out row as a live single-request:")
-print(f"  RIGHT - reuse saved training scaler         : accuracy {right:.3f}")
-print(f"  WRONG - fit a fresh scaler on each request  : accuracy {wrong:.3f}   (collapses to majority-class share {max(yte.mean(),1-yte.mean()):.3f})")
+print(f"  RIGHT: reuse saved training scaler         : accuracy {right:.3f}")
+print(f"  WRONG: fit a fresh scaler on each request  : accuracy {wrong:.3f}   (collapses to majority-class share {max(yte.mean(),1-yte.mean()):.3f})")
 print("\nfitting a scaler on one request makes that row its mean, so x - mean = 0 for every feature,")
 print("and its zero variance gets a scale of 1 (0/1 = 0, not NaN): the model sees all zeros and")
 print("predicts one class for all. A production system persists and REUSES the")
-print("exact training-time transform - a notebook fits it inline and loses it. That is the gap.")
+print("exact training-time transform: a notebook fits it inline and loses it. That is the gap.")
 
 print("\nAll lifecycle checks ran.")
 
@@ -313,7 +313,7 @@ if __name__ == "__main__":
     print(f"  one-at-a-time : {one_at_a_time*1000:6.1f} ms total -> {N/one_at_a_time:8.0f} req/s")
     print(f"  batched       : {batched*1000:6.1f} ms total -> {N/batched:8.0f} req/s")
     print(f"  batching is ~{one_at_a_time/batched:.0f}x higher throughput (vectorized), the cost being that a")
-    print("  request must wait for the batch to fill - the latency/throughput tradeoff every server tunes.")
+    print("  request must wait for the batch to fill: the latency/throughput tradeoff every server tunes.")
     print("\n(For a demo UI in minutes, Gradio or Streamlit wrap this same predict() in a web page;")
     print(" they are not run here, but the served function is identical.)")
 
@@ -488,7 +488,7 @@ print(f"\nONNX (onnxruntime) output: {np.round(onnx_out[0], 4)}")
 print(f"  max difference vs original: {np.abs(onnx_out - reference).max():.2e}  (matches across frameworks)")
 
 print("\nexport decouples the model from its training code: TorchScript runs in libtorch (C++/mobile),")
-print("ONNX runs in onnxruntime on servers, phones, and edge chips - same weights, same answers,")
+print("ONNX runs in onnxruntime on servers, phones, and edge chips: same weights, same answers,")
 print("deployable far beyond the Python process that trained it.")
 
 print("\nAll export/portability checks ran.")
@@ -724,7 +724,7 @@ print(f"  current production: {reg.production} (acc={reg.versions[reg.production
 reg.promote("v1")                                           # v2 misbehaves in prod -> instant rollback
 print(f"  after rollback, production: {reg.production} (acc={reg.versions[reg.production]['acc']:.3f})")
 print("\nCI gates ship only models that beat a quality bar; the registry versions every model with its")
-print("metrics and stage, so promoting an improvement - or rolling back a bad deploy - is one safe step.")
+print("metrics and stage, so promoting an improvement, or rolling back a bad deploy, is one safe step.")
 
 print("\nAll CI/CD + registry checks ran.")
 
@@ -865,9 +865,9 @@ print("\nmemory to hold a 7B model's weights:")
 for name, bits in [("fp32", 32), ("fp16", 16), ("int8", 8), ("int4", 4)]:
     gb = params * bits / 8 / 1e9
     print(f"  {name:4s} ({bits:2d}-bit): {gb:5.1f} GB")
-print("  int4 is 1/8 of fp32, the difference between needing a data-center GPU and a single consumer card.")
+print("  int4 is 1/8 of fp32: the same weights in an eighth of the memory.")
 print("\ncaching skips repeat work, the KV-cache removes redundant prefix reencoding (attention itself")
-print("stays quadratic), and quantization shrinks the model - vLLM bundles these with")
+print("stays quadratic), and quantization shrinks the model: vLLM bundles these with")
 print("continuous batching to serve LLMs at scale.")
 
 print("\nAll scaling-inference checks ran.")
@@ -1094,7 +1094,7 @@ print(f"  cost/call             : ${cost_per_call:.7f} at the assumed ${PRICE_PE
 print(f"  projected monthly cost at {monthly_calls:,} calls: ${monthly_cost:,.2f}  (budget ${BUDGET:.0f})")
 print(f"  -> {'WITHIN budget' if monthly_cost <= BUDGET else 'OVER budget: shorten prompts / cache / smaller model'}")
 print("\nin LLMOps the prompt is versioned code, every change is regression-tested on an eval set, and")
-print("token cost and latency are budgeted line items - the same engineering rigor as any other system.")
+print("token cost and latency are budgeted line items: the same engineering rigor as any other system.")
 
 print("\nAll LLMOps checks ran.")
 
@@ -1222,7 +1222,7 @@ send_batch(shift=SHIFT)                                    # simulated shift: th
 print("after SHIFTED traffic (simulated drift on feature 0):")
 print("  /metrics ->", client.get("/metrics").json())
 print("\none service: it trains on real data, serves predictions over HTTP, and reports its own health -")
-print("latency, prediction mix, and data drift - so the drift alarm fires the moment inputs move.")
+print("latency, prediction mix, and data drift: so the drift alarm fires the moment inputs move.")
 
 print("\nAll deploy-and-monitor lab checks ran.")
 # %% [markdown]

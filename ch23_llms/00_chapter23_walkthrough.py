@@ -140,7 +140,7 @@ print(f"yet it is defined by only {2*d*8:,} trained numbers.")
 # ## 23.3 How text generation actually works
 
 # %% [markdown]
-# Example 23-4 runs both regimes on distilgpt2: greedy decoding at temperature 0, the setting used whenever an output must be reproducible, and beside it an example sampled setting of temperature 0.7 with top-p 0.9. Like every pipeline in this chapter, it passes `device="cpu"`. Without that argument, transformers 5.22.1 places a pipeline on the first accelerator it finds, such as a CUDA or MPS device, and uses the CPU only when there is none (Hugging Face, 2026d, the device parameter of pipeline()); the argument keeps every listing on the CPU, where the book's printed outputs come from.
+# Example 23-4 runs both regimes on distilbert/distilgpt2: greedy decoding at temperature 0, the setting used whenever an output must be reproducible, and beside it an example sampled setting of temperature 0.7 with top-p 0.9. Like every pipeline in this chapter, it passes `device="cpu"`. Without that argument, transformers 5.22.1 places a pipeline on the first accelerator it finds, such as a CUDA or MPS device, and uses the CPU only when there is none (Hugging Face, 2026d, the device parameter of pipeline()); the argument keeps every listing on the CPU, where the book's printed outputs come from.
 
 # %% [markdown]
 # Example 23-4. Greedy decoding and a sampled setting, side by side.
@@ -149,7 +149,7 @@ print(f"yet it is defined by only {2*d*8:,} trained numbers.")
 import warnings; warnings.filterwarnings("ignore")
 import os; os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 from transformers import pipeline, set_seed
-gen = pipeline("text-generation", model="distilgpt2", device="cpu")   # the CPU, where the book's outputs come from
+gen = pipeline("text-generation", model="distilbert/distilgpt2", device="cpu")   # the CPU, where the book's outputs come from
 prompt = "The capital of France is"
 
 # temperature 0 == greedy: the setting for any output that must be reproducible.
@@ -189,23 +189,23 @@ z_pres = 2.0 - alpha_pres * (c > 0)                      # presence penalty: onc
 print(f"frequency penalty {alpha_freq}, count {c}: 2.0 -> {z_freq:.1f}; presence penalty {alpha_pres}: 2.0 -> {z_pres:.1f}")
 print(f"the frequency penalty divides the token's softmax weight by e^{alpha_freq * c:.1f} = {np.exp(alpha_freq * c):.4f}")
 
-gen = pipeline("text-generation", model="distilgpt2", device="cpu")   # the CPU, where the book's outputs come from
+gen = pipeline("text-generation", model="distilbert/distilgpt2", device="cpu")   # the CPU, where the book's outputs come from
 for rp in (1.0, 1.2):                                    # 1.0 means no penalty: Example 23-4's greedy run
     out = gen("The capital of France is", max_new_tokens=12, do_sample=False, repetition_penalty=rp,
               pad_token_id=50256, truncation=True)[0]["generated_text"]
     print(f"greedy, repetition_penalty {rp}: {out.encode('ascii', 'ignore').decode().strip()}")
 
 # %% [markdown]
-# Example 23-6 runs both rules over two of distilgpt2's real next-token distributions and shows the difference.
+# Example 23-6 runs both rules over two of distilbert/distilgpt2's real next-token distributions and shows the difference.
 #
-# Example 23-6. Top-p and min-p cutoffs on a peaked and a flat next-token distribution of distilgpt2.
+# Example 23-6. Top-p and min-p cutoffs on a peaked and a flat next-token distribution of distilbert/distilgpt2.
 
 # %%
 import numpy as np
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
-tok = AutoTokenizer.from_pretrained("distilgpt2")
-model = AutoModelForCausalLM.from_pretrained("distilgpt2").eval()
+tok = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2").eval()
 
 def next_dist(prompt):
     ids = tok(prompt, return_tensors="pt").input_ids
@@ -537,7 +537,7 @@ print("low volume or spiky traffic -> API wins (no idle cost); high steady volum
 # %% [markdown]
 # For a question $q$ and an option $o$ of $T$ tokens $o_1, \dots, o_T$, the score is the summed log probability of the option's own tokens, $s(o) = \sum_{t=1}^{T} \log P(o_t \mid q, o_1, \dots, o_{t-1})$, and the model picks the option with the largest $s(o)$. The question's tokens are the same for every option, so they are left out of the sum.
 #
-# Example 23-16 scores four options for one question with distilgpt2 (Hugging Face, 2022), printing each option's token count and score before the pick, and then recaps the rest of the evaluation ladder.
+# Example 23-16 scores four options for one question with distilbert/distilgpt2 (Hugging Face, 2022), printing each option's token count and score before the pick, and then recaps the rest of the evaluation ladder.
 
 # %% [markdown]
 # Example 23-16. Benchmark scoring by likelihood.
@@ -547,8 +547,8 @@ import warnings; warnings.filterwarnings("ignore")
 import numpy as np
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
-tok = AutoTokenizer.from_pretrained("distilgpt2")
-model = AutoModelForCausalLM.from_pretrained("distilgpt2").eval()
+tok = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2").eval()
 
 print("benchmark scoring (multiple choice): pick the option the model assigns highest likelihood.")
 question = "The capital of France is"
@@ -583,7 +583,7 @@ print("  - perplexity and benchmarks measure proxies; only task-grounded eval me
 # ## 23.9 Limitations: hallucination, knowledge cutoff, bias, and jailbreaks
 
 # %% [markdown]
-# Example 23-17 probes two of the four limitations this section covers, hallucination and bias, on distilgpt2, and closes with printed notes on the other two, the knowledge cutoff and jailbreaks. Like Example 23-4, it passes `device="cpu"` to its pipeline, for the reason Section 23.3 gives.
+# Example 23-17 probes two of the four limitations this section covers, hallucination and bias, on distilbert/distilgpt2, and closes with printed notes on the other two, the knowledge cutoff and jailbreaks. Like Example 23-4, it passes `device="cpu"` to its pipeline, for the reason Section 23.3 gives.
 
 # %% [markdown]
 # Example 23-17. Hallucination, knowledge cutoff, and bias.
@@ -592,11 +592,11 @@ print("  - perplexity and benchmarks measure proxies; only task-grounded eval me
 import warnings; warnings.filterwarnings("ignore")
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline, set_seed
-tok = AutoTokenizer.from_pretrained("distilgpt2")
-model = AutoModelForCausalLM.from_pretrained("distilgpt2").eval()
+tok = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+model = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2").eval()
 
 # device="cpu" keeps the pipeline on the processor the book's outputs come from (Section 23.3)
-gen = pipeline("text-generation", model="distilgpt2", tokenizer=tok, device="cpu")
+gen = pipeline("text-generation", model="distilbert/distilgpt2", tokenizer=tok, device="cpu")
 set_seed(0)
 prompt = "The 2041 Nobel Prize in Physics was awarded to Dr."
 out = gen(prompt, max_new_tokens=20, do_sample=False, truncation=True)[0]["generated_text"]
@@ -743,7 +743,7 @@ print(f"  once costs about ${total/1e6*price_per_m:.4f} in input tokens")
 
 # STEP 2 - the two decoding regimes (Section 23.3) on a review-style prefix
 # device="cpu" keeps the pipeline on the processor the book's outputs come from (Section 23.3)
-gen = pipeline("text-generation", model="distilgpt2", device="cpu")
+gen = pipeline("text-generation", model="distilbert/distilgpt2", device="cpu")
 prefix = "The movie was"
 greedy = gen(prefix, max_new_tokens=10, do_sample=False,
              pad_token_id=50256, truncation=True)[0]["generated_text"]
@@ -794,8 +794,8 @@ for name, threshold in [("raw (m > 0)", 0.0), (f"calibrated (m > {m_cf:.3f})", m
           f"on negatives {np.mean(pred[y == 0] == 0):.3f}")
 
 # STEP 4 - the intrinsic check (Sections 15.5.2 and 23.8): perplexity flags fluency.
-lm_tok = AutoTokenizer.from_pretrained("distilgpt2")
-lm = AutoModelForCausalLM.from_pretrained("distilgpt2").eval()
+lm_tok = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+lm = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2").eval()
 def perplexity(text):
     ids = lm_tok(text, return_tensors="pt").input_ids
     with torch.no_grad():
@@ -807,7 +807,7 @@ for t in ds["text"][:5]:
     ppl_real.append(perplexity(t))
     w = t.split(); rng.shuffle(w)
     ppl_shuf.append(perplexity(" ".join(w)))
-print(f"\nSTEP 4 - perplexity on the first 5 reviews (distilgpt2):")
+print(f"\nSTEP 4 - perplexity on the first 5 reviews (distilbert/distilgpt2):")
 print(f"  as written : mean {np.mean(ppl_real):7.1f}")
 print(f"  shuffled   : mean {np.mean(ppl_shuf):7.1f}")
 print(f"  shuffling raised perplexity on {sum(a < b for a, b in zip(ppl_real, ppl_shuf))}/5 reviews")
@@ -864,7 +864,7 @@ print(len(ds), audit(ds["text"][:500]))
 
 # %%
 from transformers import AutoTokenizer
-tok = AutoTokenizer.from_pretrained("distilgpt2")
+tok = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
 def decoding_report(prompt):
     ...
 print(tok.vocab_size, decoding_report("The capital of France is"))

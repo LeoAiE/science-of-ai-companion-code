@@ -112,8 +112,8 @@ print(f"most fragmented: {tc[worst]} tokens / {wc[worst]} words; fit in 512: {su
 
 # %%
 # 5. Reconstruct the decoding knobs from scratch
-lm_tok = AutoTokenizer.from_pretrained("distilgpt2")
-lm = AutoModelForCausalLM.from_pretrained("distilgpt2").eval()
+lm_tok = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+lm = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2").eval()
 ids = lm_tok("The capital of France is", return_tensors="pt").input_ids
 def greedy(n=10):
     cur = ids.clone()
@@ -268,8 +268,8 @@ import os; os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 import numpy as np, torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 tok = AutoTokenizer.from_pretrained("gpt2")
-lm_tok = AutoTokenizer.from_pretrained("distilgpt2")
-lm = AutoModelForCausalLM.from_pretrained("distilgpt2").eval()
+lm_tok = AutoTokenizer.from_pretrained("distilbert/distilgpt2")
+lm = AutoModelForCausalLM.from_pretrained("distilbert/distilgpt2").eval()
 def softmax(z, T=1.0): e = np.exp((z - z.max())/T); return e/e.sum()
 def ppl(text):
     tid = lm_tok(text, return_tensors="pt").input_ids
