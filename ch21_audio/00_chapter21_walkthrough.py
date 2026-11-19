@@ -1548,7 +1548,7 @@ import torch.nn as nn
 np.random.seed(0); torch.manual_seed(0)
 sr = 16000                                                   # we resample every clip to 16 kHz
 
-# PART 1 - real ESC-50 environmental sounds -> log-mel spectrograms -> a small CNN
+# PART 1: real ESC-50 environmental sounds -> log-mel spectrograms -> a small CNN
 CLASSES = ["dog", "rain", "crying_baby", "siren", "clock_tick"]
 lab = {c: i for i, c in enumerate(CLASSES)}
 esc = (load_dataset("ashraq/esc50", split="train")

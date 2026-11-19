@@ -1218,7 +1218,7 @@ ga_len = length(pop[0])
 
 # baseline: the average random tour (nearest_neighbor is the greedy tour of Example 22-14)
 rand_len = np.mean([length(list(rng.permutation(NC))) for _ in range(3000)])
-print("PART 1 - Traveling Salesman Problem (20 real US state capitals), tour length (lower is better):")
+print("PART 1: Traveling Salesman Problem (20 real US state capitals), tour length (lower is better):")
 print(f"  random tour (avg)      : {rand_len:.2f}")
 print(f"  nearest-neighbor       : {nearest_neighbor():.2f}")
 print(f"  genetic algorithm      : {ga_len:.2f}  (shorter than nearest neighbor; 2-opt can be shorter)")
@@ -1240,7 +1240,7 @@ NWT = NO * NA + NA                                       # 10 weights
 POP2, GENS2, MU = 24, 30, 6
 popw = rng.normal(0, 1, (POP2, NWT))
 steps = 0                                                # environment steps the search spends
-print("\nPART 2 - neuroevolution on CartPole (max reward 500):")
+print("\nPART 2: neuroevolution on CartPole (max reward 500):")
 for gen in range(GENS2):
     fits = np.array([reward_of(w) for w in popw])
     steps += round(3 * fits.sum())                       # CartPole pays +1 per step: 3 episodes x mean reward = steps

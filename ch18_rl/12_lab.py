@@ -95,6 +95,6 @@ print(f"\nTIER 3  PPO (Stable-Baselines3) on CartPole: mean return {mean_r:.0f} 
 print(f"        (500 is the maximum; a few lines of a tested library, the clipped objective of 18.7 inside)")
 
 print("\nthe progression: a TABLE for small discrete worlds, a NETWORK for continuous ones,")
-print("and a LIBRARY implementation of PPO for getting real work done - same RL ideas throughout.")
+print("and a LIBRARY implementation of PPO for getting real work done: same RL ideas throughout.")
 print("\nAll RL-lab checks ran.")
 

@@ -59,7 +59,7 @@ if __name__ == "__main__":
     print(f"  one-at-a-time : {one_at_a_time*1000:6.1f} ms total -> {N/one_at_a_time:8.0f} req/s")
     print(f"  batched       : {batched*1000:6.1f} ms total -> {N/batched:8.0f} req/s")
     print(f"  batching is ~{one_at_a_time/batched:.0f}x higher throughput (vectorized), the cost being that a")
-    print("  request must wait for the batch to fill - the latency/throughput tradeoff every server tunes.")
+    print("  request must wait for the batch to fill: the latency/throughput tradeoff every server tunes.")
     print("\n(For a demo UI in minutes, Gradio or Streamlit wrap this same predict() in a web page;")
     print(" they are not run here, but the served function is identical.)")
 

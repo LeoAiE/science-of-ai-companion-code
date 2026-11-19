@@ -1175,7 +1175,7 @@ print(f"  the citation links add {(gcn_acc - mlp_acc)*100:.0f} accuracy points: 
 print(f"  in the citation graph reveal its topic, which the bag-of-words alone misses.")
 
 print("\nthe GCN propagates each paper's features along citations, so papers citing each other")
-print("(usually on the same topic) get similar representations - homophily again. Swap GCNConv")
+print("(usually on the same topic) get similar representations: homophily again. Swap GCNConv")
 print("for SAGEConv or GATConv to try GraphSAGE or attention; add layers to see farther (watch")
 print("for oversmoothing); switch the head for link prediction or graph classification.")
 
